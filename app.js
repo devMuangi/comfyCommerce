@@ -1,9 +1,9 @@
-const client = contentful.createClient({
-    // This is the space ID. A space is like a project folder in Contentful terms
-    space: "haniwo1c9cad",
-    // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-    accessToken: "x3MrjoAPcW1OJRRIgB8auxesuhPTVpsjeRarBrVyfj8"
-  });
+// const client = contentful.createClient({
+//     // This is the space ID. A space is like a project folder in Contentful terms
+//     space: "haniwo1c9cad",
+//     // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+//     accessToken: "x3MrjoAPcW1OJRRIgB8auxesuhPTVpsjeRarBrVyfj8"
+//   });
 
 
 //variables
@@ -27,21 +27,32 @@ let buttonsDOM = [];
 class Products{
     async getProducts(){
         try {
-            let contentful = await client.getEntries(
-               {content_type: "comfyHouseProducts"} 
-            );
+            // let contentful = await client.getEntries(
+            //    {content_type: "comfyHouseProducts"} 
+            // );
 
             console.log(contentful);
 
-            //let result = await fetch("products.json");
-            //let data = await result.json();
+            let result = await fetch("https://oramla.com/cordova/product_main_container.php");
+            let data = await result.json();
+            console.log(data);
 
-            let products = contentful.items;
-            products = products.map(item =>{
-                const {title,price} = item.fields;
-                const {id} = item.sys
-                const image = item.fields.image.fields.file.url;
-                return {title,price,id,image};
+            // let products = contentful.items;
+            // products = products.map(item =>{
+            //     const {title,price} = item.fields;
+            //     const {id} = item.sys
+            //     const image = item.fields.image.fields.file.url;
+            //     return {title,price,id,image};
+            
+             let products = data.products;
+             products = products.map(product =>{
+                   const title = product.product_title;
+                    const {id} = product.product_id;
+                    const img = product.product_img;
+                    const price = product.product_price;
+                    const category = product.product_cat;
+                       
+                   return {id,title,category,img,price};
 
             });
             return products 
@@ -66,7 +77,7 @@ class UI {
             <!--single product-->
             <article class="product">
                 <div class="img-container">
-                    <img src=${product.image} 
+                    <img src=${product.img} 
                     alt="product" 
                     class="product-img">
                     <button class="bag-btn" data-id=${product.id}>
@@ -86,7 +97,7 @@ class UI {
     }
     getBagButtons(){
         const buttons = [...document.querySelectorAll(".bag-btn")];
-        //console.log(buttons);
+        // console.log(buttons);
         buttonsDOM = buttons;
         buttons.forEach(button => {
             let id = button.dataset.id;
