@@ -17,8 +17,18 @@ const cartTotal = document.querySelector(".cart-total");
 const cartContent = document.querySelector(".cart-content");
 const productsDOM = document.querySelector(".products-center");
 
+//for hamburger menu
+const hamburgerBtn = document.querySelector(".hamburger-btn");
+const CloseHamburgerBtn = document.querySelector(".close-hamburger");
+const hamburgerDOM = document.querySelector(".hamburger");
+const hamburgerOverlay = document.querySelector(".hamburger-overlay");
+
 //cart
 let cart = [];
+
+// hamburger menu
+let hamburger = [];
+
 //buttons
 let buttonsDOM = [];
 
@@ -42,7 +52,6 @@ class Products{
                 const {id} = item.sys
                 const image = item.fields.image.fields.file.url;
                 return {title,price,id,image};
-
             });
             return products 
         } catch (error) {
@@ -50,11 +59,9 @@ class Products{
         }
 
         }
-    
-    
+     
 }
     
-
 
 //display products
 class UI {
@@ -153,12 +160,20 @@ class UI {
         cartOverlay.classList.add("transparentBcg");
         cartDOM.classList.add("showCart");
     }
+    showHamburger(){
+        hamburgerOverlay.classList.add("transparentBcg");
+        hamburgerDOM.classList.add("showHamburger");
+    }
+    
     setupAPP(){
         cart = Storage.getCart();
         this.setCartValues(cart);
         this.populateCart(cart);
         cartBtn.addEventListener('click',this.showCart);
         CloseCartBtn .addEventListener('click',this.hideCart);
+        hamburgerBtn.addEventListener('click',this.showHamburger);
+        CloseHamburgerBtn.addEventListener('click',this.hideHamburger);
+        
     }
     populateCart(cart){
         cart.forEach(item =>this.addCartItem(item));
@@ -166,7 +181,10 @@ class UI {
     hideCart(){
         cartOverlay.classList.remove("transparentBcg");
         cartDOM.classList.remove("showCart");
-
+    }
+    hideHamburger(){
+        hamburgerOverlay.classList.remove("transparentBcg");
+        hamburgerDOM.classList.remove("showHamburger");
     }
     cartLogic(){
         //clear cart button
