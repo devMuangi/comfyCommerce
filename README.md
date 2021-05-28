@@ -1,5 +1,6 @@
 # comfyHouse
-This is a simple e-commerce  site that i built using vanilla-js.
+A simple e-commerce site in vanilla-js.
+
 The contents are hosted at contentful.
 
 Visit vanilla-js-commerce.netlify.app to view it live.
